@@ -1,47 +1,82 @@
 # WeatherScrape
-> Tutorial project
 
-## Jak funguje script:
+Konzolová aplikace v Pythonu, která stahuje aktuální počasí pro České Budějovice z webu [pocasi.seznam.cz](https://pocasi.seznam.cz/ceske-budejovice) a každých 5 minut ho automaticky aktualizuje.
 
- - Na začátku skriptu jsou importovány potřebné knihovny. _**"BeautifulSoup"**_ se používá pro parsování HTML kódu webových stránek, _**"requests"**_ pro získání obsahu stránky a _**"schedule"**_ pro plánování pravidelných úkolů (opakování) a _**"time"**_ funkce pro práci s časem.
-    - Vypíše se název Scriptu v podobě ASCII.
-    - Funkce _**"get_weather"**_: Tato funkce získává aktuální počasí pro zvolenou lokalitu České Budějovice. 
-        - _**Teplota**_: Získá data o teplotě.
-        - _**Rychlost větru**_: Získá data o rychlosti větru.
-        - _**Srážky**_: Získá data o srážkách.
-        - _**Bio zátěž**_: Získá data o bio zátěži.
-        - _**Tlak vzduchu**_: Získá data o tlaku vzduchu.
-    - Při spuštění skriptu, aby uživatel viděl aktuální počasí se spustí _**"get_weather"**_.
-    - Spuštění každých **5 minut** (lze změnit): Následuje plánování pravidelné aktualizace počasí každých 5 minut.
-    - Nakonec je spuštěn nekonečný cyklus, který provádí plánované úlohy.
-    - Program lze přerušit pomocí _**Ctrl + C**_.
+> Výukový projekt zaměřený na web scraping a plánování opakovaných úloh.
 
+## Funkce
 
-## Pokud to nejde instalujte:
- První krok
+- Zobrazení aktuálních údajů o počasí:
+  - teplota
+  - rychlost větru (m/s)
+  - srážky (mm)
+  - biozátěž
+  - tlak vzduchu (hPa)
+- Automatická aktualizace každých 5 minut (interval lze změnit)
+- Ošetření chybějících dat – pokud se údaj nepodaří načíst, program vypíše hlášku a pokračuje
+
+## Použité technologie
+
+| Knihovna | Účel |
+|---|---|
+| [requests](https://pypi.org/project/requests/) | stažení HTML stránky |
+| [BeautifulSoup4](https://pypi.org/project/beautifulsoup4/) | parsování HTML a vyhledání údajů |
+| [schedule](https://pypi.org/project/schedule/) | plánování opakovaného spuštění |
+| time (standardní knihovna) | čekací smyčka |
+
+## Instalace
+
+Požadavky: **Python 3.8+**
+
+```bash
+git clone https://github.com/jirimdf/WeatherScrape.git
+cd WeatherScrape
+pip install requests beautifulsoup4 schedule
 ```
-python.exe -m pip install --upgrade pip
+
+Na Linuxu (Debian/Ubuntu) případně nejdřív doinstalujte pip:
+
+```bash
+sudo apt update
+sudo apt install python3-pip
 ```
- Druhý krok
+
+## Spuštění
+
+```bash
+python main.py
 ```
-pip install beautifulsoup4
+
+Program po spuštění ihned vypíše aktuální počasí a poté ho obnovuje každých 5 minut. Ukončení: **Ctrl + C**.
+
+Ukázka výstupu:
+
 ```
- Třetí krok
+Lokalita České Budějovice:
+
+Teplota: …
+Rychlost větru: … m/s
+Srážky: … mm
+Bio zátěž: …
+Tlak vzduchu: … hPa
 ```
-pip install requests
-```
- Čtvrtý krok
-```
-pip install schedule
-```
- Pátý krok
-```
-pip install time
-```
-## Linux
-```
-$ sudo apt-get update & upgrade -y
-```
-```
-$ sudo apt-get install python3-pip
-```
+
+## Jak to funguje
+
+1. `requests` stáhne HTML stránku s počasím.
+2. `BeautifulSoup` v ní podle HTML tagů a CSS tříd najde jednotlivé údaje.
+3. Funkce `get_weather()` údaje vypíše do konzole.
+4. `schedule` spouští `get_weather()` každých 5 minut v nekonečné smyčce.
+
+## Úpravy
+
+- **Interval aktualizace** – v `main.py` změňte číslo v `schedule.every(5).minutes`.
+- **Jiné město** – změňte URL v `requests.get(...)`, např. na `https://pocasi.seznam.cz/praha`.
+
+## Známá omezení
+
+Scraper je závislý na HTML struktuře webu pocasi.seznam.cz (CSS třídy jako `d_cB`, `d_cJ`). Pokud web změní svůj vzhled, je potřeba selektory v kódu upravit.
+
+## Licence
+
+Projekt je pod licencí [MIT](LICENSE).
