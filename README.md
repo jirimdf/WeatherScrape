@@ -31,7 +31,7 @@ Požadavky: **Python 3.8+**
 ```bash
 git clone https://github.com/jirimdf/WeatherScrape.git
 cd WeatherScrape
-pip install requests beautifulsoup4 schedule
+pip install -r requirements.txt
 ```
 
 Na Linuxu (Debian/Ubuntu) případně nejdřív doinstalujte pip:
