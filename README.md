@@ -54,17 +54,17 @@ Ukázka výstupu:
 ```
 Lokalita České Budějovice:
 
-Teplota: …
-Rychlost větru: … m/s
-Srážky: … mm
-Bio zátěž: …
-Tlak vzduchu: … hPa
+Teplota: 14°C
+Rychlost větru: 3 m/s
+Srážky: 0 mm
+Bio zátěž: Nízká
+Tlak vzduchu: 1024 hPa
 ```
 
 ## Jak to funguje
 
 1. `requests` stáhne HTML stránku s počasím.
-2. `BeautifulSoup` v ní podle HTML tagů a CSS tříd najde jednotlivé údaje.
+2. `BeautifulSoup` v ní najde jednotlivé údaje podle jejich popisků na stránce (např. „Tlak“, „Srážky“).
 3. Funkce `get_weather()` údaje vypíše do konzole.
 4. `schedule` spouští `get_weather()` každých 5 minut v nekonečné smyčce.
 
@@ -75,7 +75,7 @@ Tlak vzduchu: … hPa
 
 ## Známá omezení
 
-Scraper je závislý na HTML struktuře webu pocasi.seznam.cz (CSS třídy jako `d_cB`, `d_cJ`). Pokud web změní svůj vzhled, je potřeba selektory v kódu upravit.
+Scraper je závislý na HTML struktuře webu pocasi.seznam.cz. Údaje hledá podle textových popisků, ne podle generovaných CSS tříd, takže běžné změny vzhledu přežije. Pokud web změní popisky nebo strukturu stránky, je potřeba kód upravit.
 
 ## Licence
 
